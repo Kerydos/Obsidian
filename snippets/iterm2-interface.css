@@ -6,9 +6,8 @@
    가 계속 담당하며 이 파일은 건드리지 않습니다.
    ============================================================ */
 
-.theme-dark,
-.theme-light {
-  /* ── 터미널 팔레트 ── */
+.theme-dark {
+  /* ── 터미널 팔레트 (다크: iTerm2 클래식 검정+그린) ── */
   --term-bg: #0c0c0c;            /* 터미널 검정 배경 */
   --term-bg-elevated: #161616;   /* 살짝 밝은 패널 배경(사이드바/탭바) */
   --term-bg-hover: #232323;      /* 호버 배경 */
@@ -17,7 +16,22 @@
   --term-green: #29d398;         /* 터미널 그린(프롬프트/강조) */
   --term-green-bright: #4dffb0;  /* 밝은 그린(호버/포커스) */
   --term-border: #2a2a2a;        /* 구분선 */
+}
 
+.theme-light {
+  /* ── 터미널 팔레트 (라이트: iTerm2 Light Background 톤) ── */
+  --term-bg: #f5f5f4;            /* 터미널 라이트 배경 */
+  --term-bg-elevated: #ececea;   /* 살짝 어두운 패널 배경(사이드바/탭바) */
+  --term-bg-hover: #e0e0dd;      /* 호버 배경 */
+  --term-fg: #2c2c2c;            /* 짙은 회색 텍스트 */
+  --term-fg-dim: #767672;        /* 흐린 회색(비활성) */
+  --term-green: #0a7a3d;         /* 터미널 그린(라이트 배경 대비 확보용으로 짙게) */
+  --term-green-bright: #14914a;  /* 밝은 그린(호버/포커스) */
+  --term-border: #d7d7d3;        /* 구분선 */
+}
+
+.theme-dark,
+.theme-light {
   /* ── 타이틀바 ── */
   --titlebar-background: var(--term-bg-elevated);
   --titlebar-background-focused: var(--term-bg-elevated);
@@ -89,4 +103,88 @@
 .workspace-ribbon.mod-left,
 .workspace-ribbon.mod-right {
   background-color: var(--term-bg) !important;
+}
+
+/* ── 좌우 사이드바: 글자 크기 확대 + 줄 간격 축소 ──
+   Obsidian 실제 구현(obsidian.asar 코드 확인):
+     .tree-item-self {
+       font-size: var(--nav-item-size);            → 기본 var(--font-ui-small) = 13px
+       line-height: var(--line-height-tight);      → 기본 1.3
+       padding: var(--nav-item-padding);           → 기본 4px 8px 4px 24px
+       margin-bottom: var(--nav-item-margin-bottom); → 기본 2px
+     }
+     .tree-item-self.mod-collapsible { padding: var(--nav-item-parent-padding); }
+       → 폴더 행은 별도 변수를 쓰므로 함께 조정하지 않으면 파일 행과 높이가 어긋남.
+
+   ※ 주의: calc(var(--x) + 4px) 처럼 변수가 자기 자신을 참조하면 CSS 사양상
+     순환 참조로 판정되어 값 전체가 무효 처리된다(적용 자체가 안 됨).
+     반드시 아래처럼 절대값으로 지정할 것.
+
+   결과: 파일명 13px → 18px, 행 높이 약 27px → 약 24px.
+   좌우 사이드바 컨테이너로만 스코프하여 본문·메뉴·모달에는 영향 없음. ── */
+.workspace-split.mod-left-split,
+.workspace-split.mod-right-split {
+  --font-ui-smaller: 16px;   /* 기본 12px — 검색 결과 개수 등 보조 텍스트 */
+  --font-ui-small: 17px;     /* 기본 13px — 사이드바 일반 UI 텍스트 */
+  --nav-item-size: 18px;     /* 기본 13px — 파일/폴더 이름 */
+
+  /* 상하 여백 4px → 1px (가로 여백 8px·24px은 아이콘/들여쓰기 정렬용이라 유지) */
+  --nav-item-padding: 1px var(--size-4-2) 1px var(--size-4-6);
+  --nav-item-parent-padding: 1px var(--size-4-2) 1px var(--size-4-6);
+  --nav-item-margin-bottom: 0px;  /* 기본 2px */
+}
+
+/* 행 높이의 대부분을 차지하는 line-height는 대응 변수가 없어 직접 지정 (기본 1.3).
+   font-size도 함께 명시해 다른 스니펫/테마 규칙에 밀리지 않도록 보장. */
+.workspace-split.mod-left-split .tree-item-self,
+.workspace-split.mod-right-split .tree-item-self {
+  font-size: var(--nav-item-size) !important;
+  line-height: 1.2 !important;
+}
+
+/* ── 파일 탐색기 폴더 아이콘 (GitHub 스타일) ──
+   GitHub 저장소 파일 목록에 쓰이는 공식 아이콘(primer/octicons의
+   file-directory-fill-16.svg)의 path를 그대로 사용.
+   background-image가 아니라 mask-image로 넣어 색상을 background-color로 제어.
+   색은 모드별로 다르게: 라이트는 짙은 그린(--term-green, #0a7a3d),
+   다크는 그레이(--term-fg-dim, #8a8a8a — 다른 사이드바 아이콘 및 폴더명
+   텍스트와 동일한 색이라 어두운 배경에서 튀지 않음).
+   크기를 1em으로 잡아 --nav-item-size(18px)를 바꾸면 아이콘도 같이 비례. ── */
+.nav-folder-title-content::before {
+  content: "";
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  margin-right: 0.4em;
+  vertical-align: -0.15em;
+  flex: 0 0 auto;
+  background-color: var(--term-green);
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M1.75 1A1.75 1.75 0 0 0 0 2.75v10.5C0 14.216.784 15 1.75 15h12.5A1.75 1.75 0 0 0 16 13.25v-8.5A1.75 1.75 0 0 0 14.25 3H7.5a.25.25 0 0 1-.2-.1l-.9-1.2C6.07 1.26 5.55 1 5 1H1.75Z'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M1.75 1A1.75 1.75 0 0 0 0 2.75v10.5C0 14.216.784 15 1.75 15h12.5A1.75 1.75 0 0 0 16 13.25v-8.5A1.75 1.75 0 0 0 14.25 3H7.5a.25.25 0 0 1-.2-.1l-.9-1.2C6.07 1.26 5.55 1 5 1H1.75Z'/%3E%3C/svg%3E");
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+
+/* 다크 모드에서는 그린 대신 그레이 (검정 배경에서 그린이 과하게 튀어 보임) */
+.theme-dark .nav-folder-title-content::before {
+  background-color: var(--term-fg-dim);
+}
+
+/* ── 선택된 파일이 들어 있는 폴더 강조 ──
+   활성 파일은 .nav-file-title.is-active 에 color: var(--nav-item-color-active)
+   (이 파일 설정상 터미널 그린)로 표시됨. 그 파일을 담고 있는 폴더에도 같은 변수를
+   써서 동일한 색으로 맞춤.
+   :has() 만 쓰면 조상 폴더가 전부 걸리므로, "하위 폴더가 그 파일을 품고 있는 경우"를
+   :not(:has(...)) 로 제외해 파일을 직접 담고 있는 가장 안쪽 폴더 하나만 선택.
+   폴더 아이콘은 currentColor 로 지정해 폴더 이름 색을 그대로 따라감. ── */
+.nav-folder:not(.mod-root):has(.nav-file-title.is-active):not(:has(.nav-folder .nav-file-title.is-active)) > .nav-folder-title {
+  color: var(--nav-item-color-active);
+}
+
+.nav-folder:not(.mod-root):has(.nav-file-title.is-active):not(:has(.nav-folder .nav-file-title.is-active)) > .nav-folder-title .nav-folder-title-content::before {
+  background-color: currentColor;
 }

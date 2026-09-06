@@ -1,0 +1,503 @@
+/* =============================================================================
+   Snippet: Minimal + Style Settings 보조 스타일
+   — A2Z(에이투지체): 시스템에 설치된 폰트를 local() Full Name으로 참조하여
+     Mac·iOS 등 동기화된 기기에서 font-weight 100~900이 올바른 굵기와 1:1 대응.
+   — 편집(Live Preview): 패밀리 "A2Z" + font-weight(100~900)로 위 9면과 1:1 대응.
+   — 읽기: KoPub Batang — 본문 Light / h1 Bold / h2~h6 Medium 면명 + 폴백 weight.
+   — 헤더 색(편집·읽기 공통): 짙은 보라 계열, 동일 hue에 채도·명도만 단계.
+   ============================================================================= */
+
+/* 시스템 설치 폰트 — Full Name으로 local() 참조, font-weight 숫자와 매칭 */
+@font-face {
+  font-family: "A2Z";
+  src: local("A2Z 1 Thin");
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "A2Z";
+  src: local("A2Z 2 ExtraLight");
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "A2Z";
+  src: local("A2Z 3 Light");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "A2Z";
+  src: local("A2Z 4 Regular");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "A2Z";
+  src: local("A2Z 5 Medium");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "A2Z";
+  src: local("A2Z 6 SemiBold");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "A2Z";
+  src: local("A2Z 7 Bold");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "A2Z";
+  src: local("A2Z 8 ExtraBold");
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "A2Z";
+  src: local("A2Z 9 Black");
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* 동일 hue(보라), 레벨별 채도·명도만 변화 — 라이트 / 다크 */
+:root {
+  /* 편집·라이브 프리뷰: @font-face "A2Z" + 숫자 굵기 → 에이투지체 폴백 */
+  --snippet-font-ui: "A2Z", "에이투지체", var(--font-text, ui-sans-serif), system-ui, sans-serif;
+  /* 읽기: Obsidian 모양 설정 폰트(--font-text) 최우선, 폴백으로 KoPub Batang */
+  --snippet-font-reading-body: var(--font-text), "KoPubWorldBatangMedium", "KoPubWorldBatang Medium", "KoPubWorld바탕체 Medium", "KoPubWorldBatang", "KoPubWorld Batang", serif;
+  --snippet-reading-h1: var(--font-text), "KoPubWorldDotumMedium", "KoPubWorldDotum Medium", "KoPubWorld돋움체 Medium", "KoPubWorldDotum", sans-serif;
+  /* h2~h6 소제목: Medium 면 (본문 Light와 구분) */
+  --snippet-reading-h2-h6: var(--font-text), "KoPubWorldDotumMedium", "KoPubWorldDotum Medium", "KoPubWorld돋움체 Medium", "KoPubWorldDotum", sans-serif;
+
+  --lp-heading-hue: 268;
+  --lp-h1: hsl(var(--lp-heading-hue) 44% 26%);
+  --lp-h2: hsl(var(--lp-heading-hue) 40% 30%);
+  --lp-h3: hsl(var(--lp-heading-hue) 36% 34%);
+  --lp-h4: hsl(var(--lp-heading-hue) 32% 38%);
+  --lp-h5: hsl(var(--lp-heading-hue) 28% 42%);
+  --lp-h6: hsl(var(--lp-heading-hue) 24% 46%);
+}
+
+body.theme-dark {
+  --lp-h1: hsl(var(--lp-heading-hue) 38% 82%);
+  --lp-h2: hsl(var(--lp-heading-hue) 34% 76%);
+  --lp-h3: hsl(var(--lp-heading-hue) 30% 70%);
+  --lp-h4: hsl(var(--lp-heading-hue) 26% 64%);
+  --lp-h5: hsl(var(--lp-heading-hue) 22% 58%);
+  --lp-h6: hsl(var(--lp-heading-hue) 18% 52%);
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* ----- Live Preview: 본문·에디터 영역 ----- */
+/* 본문 글꼴: 옵시디언 모양 설정의 --font-text 최우선 적용 */
+.markdown-source-view.mod-cm6.is-live-preview .cm-content,
+.markdown-source-view.mod-cm6.is-live-preview .cm-scroller {
+  font-family: var(--font-text), "MaruBuri-Regular", ui-sans-serif, system-ui, sans-serif !important;
+  font-feature-settings: "kern" 1;
+}
+
+/* iPhone/소형 모바일(<768px + 모바일 앱): 데스크탑 설정 폰트 크기와 동일하게 표시 */
+body.is-mobile .markdown-source-view.mod-cm6.is-live-preview .cm-content,
+body.is-mobile .markdown-source-view.mod-cm6.is-live-preview .cm-scroller,
+body.is-mobile .markdown-reading-view .markdown-rendered,
+body.is-mobile .markdown-reading-view .markdown-preview-view {
+  font-size: var(--font-text-size, 16px) !important;
+}
+
+/* iPad/태블릿(≥768px + 모바일 앱): 설정 폰트 크기 +1px */
+@media (min-width: 768px) {
+  body.is-mobile .markdown-source-view.mod-cm6.is-live-preview .cm-content,
+  body.is-mobile .markdown-source-view.mod-cm6.is-live-preview .cm-scroller,
+  body.is-mobile .markdown-reading-view .markdown-rendered,
+  body.is-mobile .markdown-reading-view .markdown-preview-view {
+    font-size: calc(var(--font-text-size, 16px) + 1px) !important;
+  }
+}
+
+
+/* Color + size + bottom spacing in Live Preview editor only */
+.markdown-source-view.mod-cm6.is-live-preview h1 {
+  color: var(--lp-h1) !important;
+  font-size: clamp(1.35rem, 2vw, 1.6rem) !important;
+  margin-bottom: 0.6em !important;
+}
+.markdown-source-view.mod-cm6.is-live-preview h2 {
+  color: var(--lp-h2) !important;
+  font-size: clamp(1.25rem, 1.8vw, 1.45rem) !important;
+  margin-bottom: 0.55em !important;
+}
+.markdown-source-view.mod-cm6.is-live-preview h3 {
+  color: var(--lp-h3) !important;
+  font-size: clamp(1.15rem, 1.6vw, 1.3rem) !important;
+  margin-bottom: 0.5em !important;
+}
+.markdown-source-view.mod-cm6.is-live-preview h4 {
+  color: var(--lp-h4) !important;
+  font-size: clamp(1.1rem, 1.5vw, 1.2rem) !important;
+  margin-bottom: 0.45em !important;
+}
+.markdown-source-view.mod-cm6.is-live-preview h5 {
+  color: var(--lp-h5) !important;
+  font-size: clamp(1.05rem, 1.4vw, 1.15rem) !important;
+  margin-bottom: 0.4em !important;
+}
+.markdown-source-view.mod-cm6.is-live-preview h6 {
+  color: var(--lp-h6) !important;
+  font-size: 1.05rem !important;
+  font-weight: 500 !important;
+  margin-bottom: 0.35em !important;
+}
+
+.markdown-source-view.mod-cm6.is-live-preview h1,
+.markdown-source-view.mod-cm6.is-live-preview h2,
+.markdown-source-view.mod-cm6.is-live-preview h3,
+.markdown-source-view.mod-cm6.is-live-preview h4,
+.markdown-source-view.mod-cm6.is-live-preview h5,
+.markdown-source-view.mod-cm6.is-live-preview h6 {
+  display: block;
+}
+
+/* CM6 token headings */
+.markdown-source-view.mod-cm6.is-live-preview .cm-header-1 {
+  color: var(--lp-h1) !important;
+  font-size: clamp(1.35rem, 2vw, 1.6rem) !important;
+}
+.markdown-source-view.mod-cm6.is-live-preview .cm-header-2 {
+  color: var(--lp-h2) !important;
+  font-size: clamp(1.25rem, 1.8vw, 1.45rem) !important;
+}
+.markdown-source-view.mod-cm6.is-live-preview .cm-header-3 {
+  color: var(--lp-h3) !important;
+  font-size: clamp(1.15rem, 1.6vw, 1.3rem) !important;
+}
+.markdown-source-view.mod-cm6.is-live-preview .cm-header-4 {
+  color: var(--lp-h4) !important;
+  font-size: clamp(1.1rem, 1.5vw, 1.2rem) !important;
+}
+.markdown-source-view.mod-cm6.is-live-preview .cm-header-5 {
+  color: var(--lp-h5) !important;
+  font-size: clamp(1.05rem, 1.4vw, 1.15rem) !important;
+}
+.markdown-source-view.mod-cm6.is-live-preview .cm-header-6 {
+  color: var(--lp-h6) !important;
+  font-size: 1.05rem !important;
+  font-weight: 500 !important;
+}
+
+body.is-mobile .markdown-source-view.mod-cm6.is-live-preview h6,
+body.is-mobile .markdown-source-view.mod-cm6.is-live-preview .cm-header-6 {
+  font-size: 1.05rem !important;
+}
+
+body:not(.is-mobile) .markdown-source-view.mod-cm6.is-live-preview h1 {
+  font-size: 26px !important;
+}
+body:not(.is-mobile) .markdown-source-view.mod-cm6.is-live-preview h2 {
+  font-size: 24px !important;
+}
+body:not(.is-mobile) .markdown-source-view.mod-cm6.is-live-preview h3 {
+  font-size: 22px !important;
+}
+body:not(.is-mobile) .markdown-source-view.mod-cm6.is-live-preview h4 {
+  font-size: 20px !important;
+}
+body:not(.is-mobile) .markdown-source-view.mod-cm6.is-live-preview h5 {
+  font-size: 19px !important;
+}
+
+body:not(.is-mobile) .markdown-source-view.mod-cm6.is-live-preview .cm-header-1 {
+  font-size: 26px !important;
+}
+body:not(.is-mobile) .markdown-source-view.mod-cm6.is-live-preview .cm-header-2 {
+  font-size: 24px !important;
+}
+body:not(.is-mobile) .markdown-source-view.mod-cm6.is-live-preview .cm-header-3 {
+  font-size: 22px !important;
+}
+body:not(.is-mobile) .markdown-source-view.mod-cm6.is-live-preview .cm-header-4 {
+  font-size: 20px !important;
+}
+body:not(.is-mobile) .markdown-source-view.mod-cm6.is-live-preview .cm-header-5 {
+  font-size: 19px !important;
+}
+
+/* 레벨별 굵기로 위계(동일 패밀리 유지) */
+.markdown-source-view.mod-cm6.is-live-preview .cm-header-1,
+.markdown-source-view.mod-cm6.is-live-preview h1 {
+  font-weight: 700 !important;
+}
+.markdown-source-view.mod-cm6.is-live-preview .cm-header-2,
+.markdown-source-view.mod-cm6.is-live-preview h2 {
+  font-weight: 600 !important;
+}
+.markdown-source-view.mod-cm6.is-live-preview .cm-header-3,
+.markdown-source-view.mod-cm6.is-live-preview h3 {
+  font-weight: 500 !important;
+}
+.markdown-source-view.mod-cm6.is-live-preview .cm-header-4,
+.markdown-source-view.mod-cm6.is-live-preview h4 {
+  font-weight: 500 !important;
+}
+.markdown-source-view.mod-cm6.is-live-preview .cm-header-5,
+.markdown-source-view.mod-cm6.is-live-preview h5 {
+  font-weight: 400 !important;
+}
+
+.markdown-source-view.mod-cm6.is-live-preview .cm-header {
+  line-height: 1.28 !important;
+  letter-spacing: -0.01em;
+}
+
+/* .cm-line 레벨 스타일: 토큰 재파싱 중 깜빡임 방지 */
+.markdown-source-view.mod-cm6.is-live-preview .cm-line:has(.cm-header-1) {
+  color: var(--lp-h1) !important;
+  font-size: clamp(1.35rem, 2vw, 1.6rem) !important;
+  font-weight: 700 !important;
+  line-height: 1.28 !important;
+  letter-spacing: -0.01em;
+  margin-bottom: 0.6em !important;
+}
+.markdown-source-view.mod-cm6.is-live-preview .cm-line:has(.cm-header-2) {
+  color: var(--lp-h2) !important;
+  font-size: clamp(1.25rem, 1.8vw, 1.45rem) !important;
+  font-weight: 600 !important;
+  line-height: 1.28 !important;
+  letter-spacing: -0.01em;
+  margin-bottom: 0.55em !important;
+}
+.markdown-source-view.mod-cm6.is-live-preview .cm-line:has(.cm-header-3) {
+  color: var(--lp-h3) !important;
+  font-size: clamp(1.15rem, 1.6vw, 1.3rem) !important;
+  font-weight: 500 !important;
+  line-height: 1.28 !important;
+  letter-spacing: -0.01em;
+  margin-bottom: 0.5em !important;
+}
+.markdown-source-view.mod-cm6.is-live-preview .cm-line:has(.cm-header-4) {
+  color: var(--lp-h4) !important;
+  font-size: clamp(1.1rem, 1.5vw, 1.2rem) !important;
+  font-weight: 500 !important;
+  line-height: 1.28 !important;
+  letter-spacing: -0.01em;
+  margin-bottom: 0.45em !important;
+}
+.markdown-source-view.mod-cm6.is-live-preview .cm-line:has(.cm-header-5) {
+  color: var(--lp-h5) !important;
+  font-size: clamp(1.05rem, 1.4vw, 1.15rem) !important;
+  font-weight: 400 !important;
+  line-height: 1.28 !important;
+  letter-spacing: -0.01em;
+  margin-bottom: 0.4em !important;
+}
+.markdown-source-view.mod-cm6.is-live-preview .cm-line:has(.cm-header-6) {
+  color: var(--lp-h6) !important;
+  font-size: 1.05rem !important;
+  font-weight: 500 !important;
+  line-height: 1.28 !important;
+  letter-spacing: -0.01em;
+  margin-bottom: 0.35em !important;
+}
+
+body:not(.is-mobile) .markdown-source-view.mod-cm6.is-live-preview .cm-line:has(.cm-header-1) { font-size: 26px !important; }
+body:not(.is-mobile) .markdown-source-view.mod-cm6.is-live-preview .cm-line:has(.cm-header-2) { font-size: 24px !important; }
+body:not(.is-mobile) .markdown-source-view.mod-cm6.is-live-preview .cm-line:has(.cm-header-3) { font-size: 22px !important; }
+body:not(.is-mobile) .markdown-source-view.mod-cm6.is-live-preview .cm-line:has(.cm-header-4) { font-size: 20px !important; }
+body:not(.is-mobile) .markdown-source-view.mod-cm6.is-live-preview .cm-line:has(.cm-header-5) { font-size: 19px !important; }
+body:not(.is-mobile) .markdown-source-view.mod-cm6.is-live-preview .cm-line:has(.cm-header-6) { font-size: 1.05rem !important; }
+
+@supports not (selector(.cm-line:has(.cm-header-1))) {
+  .markdown-source-view.mod-cm6.is-live-preview .cm-header-1 {
+    padding-bottom: 0.6em !important;
+    display: inline-block;
+  }
+  .markdown-source-view.mod-cm6.is-live-preview .cm-header-2 {
+    padding-bottom: 0.55em !important;
+    display: inline-block;
+  }
+  .markdown-source-view.mod-cm6.is-live-preview .cm-header-3 {
+    padding-bottom: 0.5em !important;
+    display: inline-block;
+  }
+  .markdown-source-view.mod-cm6.is-live-preview .cm-header-4 {
+    padding-bottom: 0.45em !important;
+    display: inline-block;
+  }
+  .markdown-source-view.mod-cm6.is-live-preview .cm-header-5 {
+    padding-bottom: 0.4em !important;
+    display: inline-block;
+  }
+  .markdown-source-view.mod-cm6.is-live-preview .cm-header-6 {
+    padding-bottom: 0.35em !important;
+    display: inline-block;
+  }
+}
+
+/* ----- 읽기 모드: 편집과 동일 헤더 색, 제목/소제목 굵기 구분 ----- */
+.markdown-reading-view .markdown-rendered,
+.markdown-reading-view .markdown-preview-view,
+.view-content .markdown-reading-view .markdown-rendered {
+  font-family: var(--snippet-font-reading-body) !important;
+}
+
+.markdown-reading-view .markdown-rendered h1,
+.markdown-reading-view .markdown-rendered h2,
+.markdown-reading-view .markdown-rendered h3,
+.markdown-reading-view .markdown-rendered h4,
+.markdown-reading-view .markdown-rendered h5,
+.markdown-reading-view .markdown-rendered h6,
+.markdown-reading-view .markdown-preview-view h1,
+.markdown-reading-view .markdown-preview-view h2,
+.markdown-reading-view .markdown-preview-view h3,
+.markdown-reading-view .markdown-preview-view h4,
+.markdown-reading-view .markdown-preview-view h5,
+.markdown-reading-view .markdown-preview-view h6,
+.view-content .markdown-reading-view .markdown-rendered h1,
+.view-content .markdown-reading-view .markdown-rendered h2,
+.view-content .markdown-reading-view .markdown-rendered h3,
+.view-content .markdown-reading-view .markdown-rendered h4,
+.view-content .markdown-reading-view .markdown-rendered h5,
+.view-content .markdown-reading-view .markdown-rendered h6 {
+  letter-spacing: -0.02em;
+  line-height: 1.35;
+}
+
+/* 읽기: 면명 + (폴백 시) font-weight로 본문 Light와 확실히 구분 */
+.markdown-reading-view .markdown-rendered h1,
+.markdown-reading-view .markdown-preview-view h1,
+.view-content .markdown-reading-view .markdown-rendered h1,
+.view-content .markdown-reading-view .markdown-preview-view h1 {
+  font-family: var(--snippet-reading-h1) !important;
+}
+.markdown-reading-view .markdown-rendered h2,
+.markdown-reading-view .markdown-rendered h3,
+.markdown-reading-view .markdown-rendered h4,
+.markdown-reading-view .markdown-rendered h5,
+.markdown-reading-view .markdown-rendered h6,
+.markdown-reading-view .markdown-preview-view h2,
+.markdown-reading-view .markdown-preview-view h3,
+.markdown-reading-view .markdown-preview-view h4,
+.markdown-reading-view .markdown-preview-view h5,
+.markdown-reading-view .markdown-preview-view h6,
+.view-content .markdown-reading-view .markdown-rendered h2,
+.view-content .markdown-reading-view .markdown-rendered h3,
+.view-content .markdown-reading-view .markdown-rendered h4,
+.view-content .markdown-reading-view .markdown-rendered h5,
+.view-content .markdown-reading-view .markdown-rendered h6,
+.view-content .markdown-reading-view .markdown-preview-view h2,
+.view-content .markdown-reading-view .markdown-preview-view h3,
+.view-content .markdown-reading-view .markdown-preview-view h4,
+.view-content .markdown-reading-view .markdown-preview-view h5,
+.view-content .markdown-reading-view .markdown-preview-view h6 {
+  font-family: var(--snippet-reading-h2-h6) !important;
+}
+
+/* 제목 내부 span·링크 등이 본문 면으로 덮이지 않도록 */
+.markdown-reading-view .markdown-rendered h1 *,
+.markdown-reading-view .markdown-preview-view h1 *,
+.view-content .markdown-reading-view .markdown-rendered h1 *,
+.view-content .markdown-reading-view .markdown-preview-view h1 * {
+  font-family: var(--snippet-reading-h1) !important;
+}
+.markdown-reading-view .markdown-rendered h2 *,
+.markdown-reading-view .markdown-rendered h3 *,
+.markdown-reading-view .markdown-rendered h4 *,
+.markdown-reading-view .markdown-rendered h5 *,
+.markdown-reading-view .markdown-rendered h6 *,
+.markdown-reading-view .markdown-preview-view h2 *,
+.markdown-reading-view .markdown-preview-view h3 *,
+.markdown-reading-view .markdown-preview-view h4 *,
+.markdown-reading-view .markdown-preview-view h5 *,
+.markdown-reading-view .markdown-preview-view h6 *,
+.view-content .markdown-reading-view .markdown-rendered h2 *,
+.view-content .markdown-reading-view .markdown-rendered h3 *,
+.view-content .markdown-reading-view .markdown-rendered h4 *,
+.view-content .markdown-reading-view .markdown-rendered h5 *,
+.view-content .markdown-reading-view .markdown-rendered h6 *,
+.view-content .markdown-reading-view .markdown-preview-view h2 *,
+.view-content .markdown-reading-view .markdown-preview-view h3 *,
+.view-content .markdown-reading-view .markdown-preview-view h4 *,
+.view-content .markdown-reading-view .markdown-preview-view h5 *,
+.view-content .markdown-reading-view .markdown-preview-view h6 * {
+  font-family: var(--snippet-reading-h2-h6) !important;
+}
+
+.markdown-reading-view .markdown-rendered h1,
+.markdown-reading-view .markdown-preview-view h1 {
+  color: var(--lp-h1) !important;
+  font-size: clamp(1.35rem, 2vw, 1.6rem) !important;
+  margin-bottom: 0.6em !important;
+}
+.markdown-reading-view .markdown-rendered h2,
+.markdown-reading-view .markdown-preview-view h2 {
+  color: var(--lp-h2) !important;
+  font-size: clamp(1.25rem, 1.8vw, 1.45rem) !important;
+  margin-bottom: 0.55em !important;
+}
+.markdown-reading-view .markdown-rendered h3,
+.markdown-reading-view .markdown-preview-view h3 {
+  color: var(--lp-h3) !important;
+  font-size: clamp(1.15rem, 1.6vw, 1.3rem) !important;
+  margin-bottom: 0.5em !important;
+}
+.markdown-reading-view .markdown-rendered h4,
+.markdown-reading-view .markdown-preview-view h4 {
+  color: var(--lp-h4) !important;
+  font-size: clamp(1.1rem, 1.5vw, 1.2rem) !important;
+  margin-bottom: 0.45em !important;
+}
+.markdown-reading-view .markdown-rendered h5,
+.markdown-reading-view .markdown-preview-view h5 {
+  color: var(--lp-h5) !important;
+  font-size: clamp(1.05rem, 1.4vw, 1.15rem) !important;
+  margin-bottom: 0.4em !important;
+}
+.markdown-reading-view .markdown-rendered h6,
+.markdown-reading-view .markdown-preview-view h6 {
+  color: var(--lp-h6) !important;
+  font-size: 1.05rem !important;
+  margin-bottom: 0.35em !important;
+}
+
+body:not(.is-mobile) .markdown-reading-view .markdown-rendered h1,
+body:not(.is-mobile) .markdown-reading-view .markdown-preview-view h1 {
+  font-size: 26px !important;
+}
+body:not(.is-mobile) .markdown-reading-view .markdown-rendered h2,
+body:not(.is-mobile) .markdown-reading-view .markdown-preview-view h2 {
+  font-size: 24px !important;
+}
+body:not(.is-mobile) .markdown-reading-view .markdown-rendered h3,
+body:not(.is-mobile) .markdown-reading-view .markdown-preview-view h3 {
+  font-size: 22px !important;
+}
+body:not(.is-mobile) .markdown-reading-view .markdown-rendered h4,
+body:not(.is-mobile) .markdown-reading-view .markdown-preview-view h4 {
+  font-size: 20px !important;
+}
+body:not(.is-mobile) .markdown-reading-view .markdown-rendered h5,
+body:not(.is-mobile) .markdown-reading-view .markdown-preview-view h5 {
+  font-size: 19px !important;
+}
+
+body.is-mobile .markdown-reading-view .markdown-rendered h6,
+body.is-mobile .markdown-reading-view .markdown-preview-view h6 {
+  font-size: 1.05rem !important;
+}

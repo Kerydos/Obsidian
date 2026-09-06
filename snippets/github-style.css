@@ -5,8 +5,12 @@
    헤더(h1~h6) 사이즈·컬러는 headings-blue.css 에서 별도 관리합니다.
    ============================================================ */
 
-/* ── 라이트 모드 색상 변수 (GitHub Light) ── */
-.theme-light {
+/* ── 라이트 모드 색상 변수 (GitHub Light) ──
+   본문(마크다운 편집/읽기 영역)에만 적용되도록 .workspace-leaf-content[data-type="markdown"]
+   로 범위를 좁힘. .theme-light 전체에 걸면 사이드바·리본·버튼 등 앱 UI 전역 변수까지
+   덮어써서 iterm2-interface.css의 인터페이스 색상, 사용자가 지정한 accentColor를
+   침범하게 되므로 반드시 이 범위를 유지할 것. ── */
+.theme-light .workspace-leaf-content[data-type="markdown"] {
   --text-normal: #1f2328;
   --text-muted: #656d76;
   --text-faint: #6e7781;
@@ -15,8 +19,10 @@
   --background-secondary: #f6f8fa;
   --background-secondary-alt: #eaeef2;
   --background-modifier-border: #d0d7de;
-  --link-color: #0969da;
+  /* 위키링크([[ ]])·내부링크: 본문 글자색에 블루를 소량만 섞어 본문과 어울리게 */
+  --link-color: color-mix(in oklab, var(--text-normal) 72%, #0969da 28%);
   --link-color-hover: #0550ae;
+  --link-external-color: #0969da;  /* 외부 링크는 구분이 필요하므로 블루 유지 */
   --text-selection: #b6e3ff;
   --code-background: #f6f8fa;
   --code-normal: #1f2328;
@@ -25,8 +31,9 @@
   --interactive-accent-hover: #0550ae;
 }
 
-/* ── 다크 모드 색상 변수 (GitHub Dark, 실제 GitHub 값 기준으로 가독성 보정) ── */
-.theme-dark {
+/* ── 다크 모드 색상 변수 (GitHub Dark, 실제 GitHub 값 기준으로 가독성 보정) ──
+   위와 동일한 이유로 본문 영역에만 스코프. ── */
+.theme-dark .workspace-leaf-content[data-type="markdown"] {
   --text-normal: #e6edf3;
   --text-muted: #9198a1;         /* GitHub 실제 fgColor-muted, 기존보다 밝게 보정 */
   --text-faint: #7d8590;
@@ -35,8 +42,10 @@
   --background-secondary: #161b22;
   --background-secondary-alt: #21262d;
   --background-modifier-border: #3d444d;   /* GitHub 실제 borderColor-default, 시인성 향상 */
-  --link-color: #4493f8;
+  /* 위키링크([[ ]])·내부링크: 본문 글자색에 블루를 소량만 섞어 본문과 어울리게 */
+  --link-color: color-mix(in oklab, var(--text-normal) 72%, #4493f8 28%);
   --link-color-hover: #79c0ff;
+  --link-external-color: #4493f8;  /* 외부 링크는 구분이 필요하므로 블루 유지 */
   --text-selection: #264f78;
   --code-background: #1c2128;    /* 본문 배경보다 한 단계 밝게 하여 코드 영역 구분감 강화 */
   --code-normal: #e6edf3;
@@ -81,16 +90,41 @@
   line-height: 1.5 !important;
 }
 
-/* ── 링크: GitHub 블루, 밑줄 없음(hover 시에만) ── */
+/* ── 링크 ──
+   위키링크([[ ]])·내부링크는 본문 글자색에 가까운 --link-color 로 표시해 본문 흐름을
+   해치지 않게 하고, hover 시에만 뚜렷한 블루로 바뀌어 링크임이 드러나게 함.
+   외부 링크는 눈에 띄어야 하므로 --link-external-color(GitHub 블루)를 유지. ── */
 .markdown-rendered a,
 .cm-link,
 .cm-hmd-internal-link {
   color: var(--link-color) !important;
   text-decoration: none !important;
 }
+
+/* ── 모든 링크의 밑줄 제거 ──
+   Obsidian은 밑줄을 text-decoration 단축 속성이 아니라
+   text-decoration-line: var(--link-decoration) 형태로 그리므로, 변수 자체를 none 으로
+   두는 것이 가장 확실하다.
+   특히 편집 모드(Live Preview)의 밑줄은 .cm-hmd-internal-link 의 "자식"인
+   .cm-underline 에 걸리기 때문에, 부모 요소에 text-decoration: none 을 줘도
+   지워지지 않는다(자식이 자기 밑줄을 그림). 변수로 처리해야 하는 이유. ── */
+.workspace-leaf-content[data-type="markdown"] {
+  --link-decoration: none;
+  --link-decoration-hover: none;
+  --link-external-decoration: none;
+  --link-external-decoration-hover: none;
+}
 .markdown-rendered a:hover {
   color: var(--link-color-hover) !important;
   text-decoration: none !important;
+}
+
+/* 위 .markdown-rendered a 규칙이 외부 링크까지 잡으므로, 특이도를 한 단계 높여 되돌림 */
+.markdown-rendered a.external-link {
+  color: var(--link-external-color) !important;
+}
+.markdown-rendered a.external-link:hover {
+  color: var(--link-color-hover) !important;
 }
 
 /* ── 인라인 코드: GitHub 실제 값 (padding .2em .4em, font-size 85%, bg-neutral-muted, radius 6px) ── */
