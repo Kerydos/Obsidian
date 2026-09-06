@@ -8,3 +8,6 @@ graph.json
 # 로컬 캐시/임시 파일
 .trash/
 *.tmp
+
+# macOS 탐색기 메타데이터
+.DS_Store

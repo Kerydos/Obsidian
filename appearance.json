@@ -1,11 +1,23 @@
 {
-  "textFontFamily": "KoPub돋움체,나눔스퀘어_ac",
-  "baseFontSize": 18,
+  "accentColor": "#5a6ba0",
+  "cssTheme": "Minimal",
   "enabledCssSnippets": [
-    "headings-github",
+    "bullet-list-live-preview-highlight-active",
+    "bullet-list-live-preview-highlight-hover",
+    "bullet-list-live-preview-threading-active",
+    "bullet-list-live-preview-threading-hover",
     "github-style",
-    "iterm2-interface"
+    "headings-github",
+    "iterm2-interface",
+    "bullet_threading"
   ],
-  "cssTheme": "",
-  "theme": "obsidian"
+  "baseFontSize": 20,
+  "interfaceFontFamily": "A2Z",
+  "theme": "system",
+  "translucency": false,
+  "textFontFamily": "KoPubWorldDotum,MaruBuri",
+  "monospaceFontFamily": "",
+  "baseFontSizeAction": true,
+  "showViewHeader": true,
+  "showRibbon": true
 }
