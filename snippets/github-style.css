@@ -5,8 +5,12 @@
    헤더(h1~h6) 사이즈·컬러는 headings-blue.css 에서 별도 관리합니다.
    ============================================================ */
 
-/* ── 라이트 모드 색상 변수 (GitHub Light) ── */
-.theme-light {
+/* ── 라이트 모드 색상 변수 (GitHub Light) ──
+   본문(마크다운 편집/읽기 영역)에만 적용되도록 .workspace-leaf-content[data-type="markdown"]
+   로 범위를 좁힘. .theme-light 전체에 걸면 사이드바·리본·버튼 등 앱 UI 전역 변수까지
+   덮어써서 iterm2-interface.css의 인터페이스 색상, 사용자가 지정한 accentColor를
+   침범하게 되므로 반드시 이 범위를 유지할 것. ── */
+.theme-light .workspace-leaf-content[data-type="markdown"] {
   --text-normal: #1f2328;
   --text-muted: #656d76;
   --text-faint: #6e7781;
@@ -25,8 +29,9 @@
   --interactive-accent-hover: #0550ae;
 }
 
-/* ── 다크 모드 색상 변수 (GitHub Dark, 실제 GitHub 값 기준으로 가독성 보정) ── */
-.theme-dark {
+/* ── 다크 모드 색상 변수 (GitHub Dark, 실제 GitHub 값 기준으로 가독성 보정) ──
+   위와 동일한 이유로 본문 영역에만 스코프. ── */
+.theme-dark .workspace-leaf-content[data-type="markdown"] {
   --text-normal: #e6edf3;
   --text-muted: #9198a1;         /* GitHub 실제 fgColor-muted, 기존보다 밝게 보정 */
   --text-faint: #7d8590;
