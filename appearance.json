@@ -1,0 +1,11 @@
+{
+  "textFontFamily": "KoPub돋움체,나눔스퀘어_ac",
+  "baseFontSize": 18,
+  "enabledCssSnippets": [
+    "headings-github",
+    "github-style",
+    "iterm2-interface"
+  ],
+  "cssTheme": "",
+  "theme": "obsidian"
+}

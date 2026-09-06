@@ -1,0 +1,10 @@
+# 기기별 세션 상태 (열려있던 탭, 창 크기 등) — 기기마다 다르므로 동기화 제외
+workspace.json
+workspace-mobile.json
+
+# 그래프 뷰 캐시성 데이터 (선택: 기기 간 동기화 불필요)
+graph.json
+
+# 로컬 캐시/임시 파일
+.trash/
+*.tmp

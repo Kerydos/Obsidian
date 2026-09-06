@@ -1,0 +1,107 @@
+/* ============================================================
+   DISE Vault — Heading Styles (Body size + step)
+   본문(baseFontSize=18px) 대비 h6→h1로 갈수록 +1px씩 커지는
+   선형(additive) 스케일. calc()를 사용해 본문 크기 변경 시에도
+   비율이 유지됩니다.
+   색상은 GitHub 기본(본문과 동일 색상, h6만 muted)을 따릅니다.
+   ============================================================ */
+
+/* ── 공통: 헤더 색상 = 본문 텍스트 색상, line-height는 GitHub 기준 1.25
+   헤더와 바로 다음 본문 사이 간격은 본문 글자 크기 기준 1.5배(1.5rem)로 통일.
+   읽기 모드(.markdown-rendered)뿐 아니라 편집 모드(Live Preview, .cm-line)에도
+   동일하게 적용되도록 !important 로 명시. ── */
+.markdown-rendered h1,
+.markdown-rendered h2,
+.markdown-rendered h3,
+.markdown-rendered h4,
+.markdown-rendered h5,
+.markdown-rendered h6,
+.markdown-source-view.mod-cm6 .HyperMD-header {
+  color: var(--text-normal) !important;
+  font-style: normal !important;
+  line-height: 1.25;
+  margin-bottom: 1.5rem !important;
+}
+
+/* 편집 모드(Live Preview)는 헤더가 .cm-line 자체에 .HyperMD-header-N 클래스로
+   붙으며, cm-line 기본 margin:0 규칙이 우선 적용되어 위 규칙이 무시되므로
+   cm-line 레벨에서 다시 한 번 명시적으로 지정 ── */
+.markdown-source-view.mod-cm6 .cm-line.HyperMD-header {
+  margin-bottom: 1.5rem !important;
+}
+
+/* ── h1 : 본문 +6px | GitHub 스타일 하단 구분선 ── */
+.markdown-source-view.mod-cm6 .cm-header-1,
+.markdown-rendered h1,
+.HyperMD-header.HyperMD-header-1 {
+  font-size: calc(1em + 6px);
+  font-weight: 600;
+  padding-bottom: 0.3em;
+  border-bottom: 1px solid var(--background-modifier-border);
+  margin-top: 1.2em;
+}
+
+/* ── h2 : 본문 +5px | GitHub 스타일 하단 구분선 ── */
+.markdown-source-view.mod-cm6 .cm-header-2,
+.markdown-rendered h2,
+.HyperMD-header.HyperMD-header-2 {
+  font-size: calc(1em + 5px);
+  font-weight: 600;
+  padding-bottom: 0.25em;
+  border-bottom: 1px solid var(--background-modifier-border);
+  margin-top: 1em;
+}
+
+/* ── h3 : 본문 +4px ── */
+.markdown-source-view.mod-cm6 .cm-header-3,
+.markdown-rendered h3,
+.HyperMD-header.HyperMD-header-3 {
+  font-size: calc(1em + 4px);
+  font-weight: 600;
+  margin-top: 0.9em;
+}
+
+/* ── h4 : 본문 +3px ── */
+.markdown-source-view.mod-cm6 .cm-header-4,
+.markdown-rendered h4,
+.HyperMD-header.HyperMD-header-4 {
+  font-size: calc(1em + 3px);
+  font-weight: 600;
+  margin-top: 0.8em;
+}
+
+/* ── h5 : 본문 +2px ── */
+.markdown-source-view.mod-cm6 .cm-header-5,
+.markdown-rendered h5,
+.HyperMD-header.HyperMD-header-5 {
+  font-size: calc(1em + 2px);
+  font-weight: 600;
+  margin-top: 0.7em;
+}
+
+/* ── h6 : 본문 +1px | GitHub 스타일 옅은 회색 텍스트 ── */
+.markdown-source-view.mod-cm6 .cm-header-6,
+.markdown-rendered h6,
+.HyperMD-header.HyperMD-header-6 {
+  font-size: calc(1em + 1px);
+  font-weight: 600;
+  color: var(--text-muted) !important;
+  margin-top: 0.6em;
+}
+
+/* ── 텍스트 밑줄(underline) 완전 제거, border-bottom은 위에서 별도 지정한 h1/h2만 유지 ── */
+.markdown-source-view .cm-header,
+.markdown-source-view .HyperMD-header,
+.markdown-rendered h3,
+.markdown-rendered h4,
+.markdown-rendered h5,
+.markdown-rendered h6 {
+  text-decoration: none !important;
+  border-bottom: none !important;
+  box-shadow: none !important;
+}
+.markdown-rendered h1,
+.markdown-rendered h2 {
+  text-decoration: none !important;
+  box-shadow: none !important;
+}
